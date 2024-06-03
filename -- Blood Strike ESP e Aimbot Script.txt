@@ -1,0 +1,78 @@
+-- Blood Strike ESP e Aimbot Script
+-- Criado por bravo ff
+
+local espAtivado = false
+local aimbotAtivado = false
+
+-- Ative o ESP para mostrar inimigos
+function ESP(6)
+    gg.clearResults()
+    gg.searchNumber("100;100;100;100::5", gg.TYPE_FLOAT, false, gg.SIGN_EQUAL, 0, -1)
+    local results = gg.getResults(100)
+    for i, result in ipairs(results) do
+        result.value = 0
+        result.freeze = true
+    end
+    gg.addListItems(results)
+    gg.toast("ESP ativado! Inimigos visíveis.")
+    espAtivado = true
+end
+
+-- Ative o Aimbot para mirar automaticamente nos inimigos
+function Aimbot(7)
+    gg.clearResults()
+    gg.searchNumber("100;100;100;100::5", gg.TYPE_FLOAT, false, gg.SIGN_EQUAL, 0, -1)
+    local results = gg.getResults(100)
+    for i, result in ipairs(results) do
+        result.value = 999
+        result.freeze = true
+    end
+    gg.addListItems(results)
+    gg.toast("Aimbot ativado! Mire nos inimigos automaticamente.")
+    aimbotAtivado = true
+end
+
+-- Desative todas as funcionalidades
+function DesativarTudo(.)
+    if espAtivado then
+        -- Lógica para desativar o ESP
+        gg.toast("ESP desativado.")
+        espAtivado = false
+    end
+    if aimbotAtivado then
+        -- Lógica para desativar o Aimbot
+        gg.toast("Aimbot desativado.")
+        aimbotAtivado = false
+    end
+end
+
+-- Menu principal
+function HOME(8)
+    menu = gg.multiChoice({
+        "Ativar/Desativar ESP",
+        "Ativar/Desativar Aimbot",
+        "Sair"
+    }, nil, "Script criado por SeuNome")
+
+    if menu == nil then
+        -- O usuário cancelou a seleção
+    else
+        if menu[1] then
+            if espAtivado then
+                DesativarTudo()
+            else
+                ESP()
+            end
+        end
+        if menu[2] then
+            if aimbotAtivado then
+                DesativarTudo()
+            else
+                Aimbot()
+            end
+        end
+        -- Adicione mais opções conforme necessário
+    end
+end
+
+HOME(9)
